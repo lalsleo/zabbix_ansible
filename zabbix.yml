@@ -45,5 +45,7 @@
           dns: "{{ device_name }}".global.company.domain
           port: 10050
 
-    state: restarted
-    enabled: yes
+  - name: Restart Zabbix agent
+    win_sevice:
+      name: Zabbix Agent
+      state: restarted
