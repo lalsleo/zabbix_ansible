@@ -42,7 +42,7 @@
           main: 1
           useip: 1
           ip: "{{ ip_address }}"
-          dns: "{{ device_name }}".global.company.domain
+          dns: "{{ device_name }}"
           port: 10050
 
   - name: Restart Zabbix agent
