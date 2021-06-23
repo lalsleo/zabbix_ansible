@@ -46,6 +46,6 @@
           port: 10050
 
   - name: Restart Zabbix agent
-    win_sevice:
+    ansible.windows.win_service:  
       name: Zabbix Agent
       state: restarted
