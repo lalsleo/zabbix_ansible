@@ -3,10 +3,15 @@
   hosts: all
   tasks:
 
-  - name: Copiando Zabbix-Agent conf
+  - name: Copiando Zabbix Agent conf
     win_copy:
       src: ./zabbix/zabbix_agentd.j2
       dest: C:\Zabbix\zabbix_agentd.conf
+
+  - name: Copiando Zabbix Agent exe
+    win_copy:
+      src: ./zabbix/zabbix_agentd.exe
+      dest: C:\Zabbix\zabbix_agentd.exe
 
   - name: install Zabbix Agent
     win_command: zabbix_agentd.exe -i -c zabbix_agentd.conf
@@ -17,3 +22,28 @@
     win_command: zabbix_agentd.exe -s -c zabbix_agentd.conf
     args:
       chdir: C:\Zabbix\
+
+  - name: Adicionando equipamento ao monitoramento
+    local_action:
+      module: zabbix_host
+      server_url: "{{ zabbix_url }}"
+      login_user: "{{ zabbix_user }}"
+      login_password: "{{ zabbix_password }}"
+      host_name: "{{ device_name }}"
+      visible_name: "{{ device_name }}"
+      description: Instalação e configuração via Ansible | "{{ description_device }}"
+      host_groups:
+        - Windows Server
+      link_templates:
+        - Template OS Windows
+      status: enabled
+      interfaces:
+        - type: 1
+          main: 1
+          useip: 1
+          ip: "{{ ip_address }}"
+          dns: "{{ device_name }}".global.company.domain
+          port: 10050
+
+    state: restarted
+    enabled: yes
