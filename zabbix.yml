@@ -45,7 +45,7 @@
           dns: "{{ device_name }}"
           port: 10050
 
-  - name: Restart Zabbix agent
-    ansible.windows.win_service:  
-      name: Zabbix Agent
-      state: restarted
+          #- name: Restart Zabbix agent
+          #ansible.windows.win_service:  
+          #name: Zabbix Agent
+          #state: restarted
