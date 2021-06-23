@@ -1,0 +1,19 @@
+---
+- name: Instalando Zabbix Agent
+  hosts: all
+  tasks:
+
+  - name: Copiando Zabbix-Agent conf
+    win_copy:
+      src: ./zabbix/zabbix_agentd.j2
+      dest: C:\Zabbix\zabbix_agentd.conf
+
+  - name: install Zabbix Agent
+    win_command: zabbix_agentd.exe -i -c zabbix_agentd.conf
+    args:
+      chdir: C:\Zabbix\
+
+  - name: start Zabbix Agent
+    win_command: zabbix_agentd.exe -s -c zabbix_agentd.conf
+    args:
+      chdir: C:\Zabbix\
